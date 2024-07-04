@@ -22,6 +22,9 @@ Este repositorio contiene un proyecto de ejemplo desarrollado en Visual Basic qu
       - [Procedimientos para 'OrdenProducto'](#procedimientos-para-ordenproducto)
       - [Procedimientos Extras](#procedimientos-extras)
     - [Triggers para Controlar el Stock del producto con base a la orden aprobada](#triggers-para-controlar-el-stock-del-producto-con-base-a-la-orden-aprobada)
+  - [Desarrollo en Visual Basic](#desarrollo-en-visual-basic)
+    - [Crear el proyecto de Visual Basic en Visual Studio](#crear-el-proyecto-de-visual-basic-en-visual-studio)
+    - [Crear la clase](#crear-la-clase)
 
 ## Requisitos Previos
 
@@ -526,3 +529,20 @@ GO
 
 ```
 
+## Desarrollo en Visual Basic
+
+### Crear el proyecto de Visual Basic en Visual Studio
+
+1. El proyecto sera una Aplicación de Windows Forms.
+
+   ![Proyecto](./images/Proyecto1.png)
+
+2. Nombre del proyecto 'SistemaGestionOrdenesCompra'
+
+   ![Proyecto2](./images/Proyecto2.png)
+
+3. Plataforma:
+
+    ![Proyecto3](./images/Proyecto3.png)
+
+### Crear la clase
