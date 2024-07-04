@@ -18,7 +18,7 @@ Este repositorio contiene un proyecto de ejemplo desarrollado en Visual Basic qu
       - [Procedimientos para 'Categoria'](#procedimientos-para-categoria)
       - [Procedimientos para 'Proveedor'](#procedimientos-para-proveedor)
       - [Procedimientos para 'Producto'](#procedimientos-para-producto)
-      - [Procedimientos para 'Orden](#procedimientos-para-orden)
+      - [Procedimientos para 'Orden'](#procedimientos-para-orden)
       - [Procedimientos para 'OrdenProducto'](#procedimientos-para-ordenproducto)
       - [Procedimientos Extras](#procedimientos-extras)
     - [Triggers para Controlar el Stock del producto con base a la orden aprobada](#triggers-para-controlar-el-stock-del-producto-con-base-a-la-orden-aprobada)
@@ -138,7 +138,7 @@ GO
 CREATE PROCEDURE ObtenerCategorias
 AS
 BEGIN
-    SELECT nombre, descripcion FROM Categoria;
+    SELECT  id, nombre, descripcion FROM Categoria;
 END;
 GO
 
@@ -185,7 +185,7 @@ GO
 CREATE PROCEDURE ObtenerProveedores
 AS
 BEGIN
-    SELECT nombre, telefono FROM Proveedor;
+    SELECT  id, nombre, telefono FROM Proveedor;
 END;
 GO
 
@@ -236,7 +236,7 @@ GO
 CREATE PROCEDURE ObtenerProductos
 AS
 BEGIN
-    SELECT nombre, precio, stock, image, idCategoria, idProveedor FROM Producto;
+    SELECT  id, nombre, precio, stock, image, idCategoria, idProveedor FROM Producto;
 END;
 GO
 
@@ -270,7 +270,7 @@ GO
 
 ```
 
-#### Procedimientos para 'Orden
+#### Procedimientos para 'Orden'
 
 ```sql
 
@@ -290,7 +290,7 @@ GO
 CREATE PROCEDURE ObtenerOrdenes
 AS
 BEGIN
-    SELECT fecha, estado, idProveedor FROM Orden;
+    SELECT  id, fecha, estado, idProveedor FROM Orden;
 END;
 GO
 
