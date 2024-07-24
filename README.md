@@ -27,6 +27,11 @@ Este repositorio contiene un proyecto de ejemplo desarrollado en Visual Basic qu
     - [Crear la Clase de Conexión a la Base de Datos](#crear-la-clase-de-conexión-a-la-base-de-datos)
     - [Formulario para el Control de las Categorías](#formulario-para-el-control-de-las-categorías)
       - [Eventos y Métodos para el funcionamiento del Control de Categorías](#eventos-y-métodos-para-el-funcionamiento-del-control-de-categorías)
+    - [Formulario para el Control de las Proveedores](#formulario-para-el-control-de-las-proveedores)
+    - [Formulario para el Control de las Productos](#formulario-para-el-control-de-las-productos)
+      - [Eventos y Métodos para el funcionamiento del Control de Productos](#eventos-y-métodos-para-el-funcionamiento-del-control-de-productos)
+      - [Formulario Main o Principal](#formulario-main-o-principal)
+      - [Ordenes de Compra (Practica)](#ordenes-de-compra-practica)
 
 ## Requisitos Previos
 
@@ -940,3 +945,592 @@ El formulario deberá quedar de una forma similar a la siguiente:
     End Sub
 ```
 
+### Formulario para el Control de las Proveedores
+
+**Practica:** tome como referencia la sección anterior de categorías y elabore un nuevo formulario para proveedores que tenga la funcionalidad CRUD completa, para el mismo
+
+### Formulario para el Control de las Productos
+
+Ahora se deberá crear un nuevo Formulario, para el control de los productos, este formulario recibirá el nombre de **frmControlProductos**, luego se deberá de agregar los controles necesario al formulario, los cuales se detallan a continuación:
+
+<table>
+    <thead>
+        <tr>
+            <th>Componente</th>
+            <th>Propiedad</th>
+            <th>Valor de la propiedad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Control de Productos</td>
+        </tr>
+        <tr>
+            <td>GroupBox</td>
+            <td>Text</td>
+            <td>Datos del Producto</td>
+        </tr>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Nombre del Producto:</td>
+        </tr>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Precio del Producto:</td>
+        </tr>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Stock del Producto:</td>
+        </tr>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Proveedor del Producto:</td>
+        </tr>
+        <tr>
+            <td>Label</td>
+            <td>Text</td>
+            <td>Categoria del Producto:</td>
+        </tr>
+        <tr>
+            <td rowspan="2">TextBox</td>
+            <td>Text</td>
+            <td>En blanco</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>txtNombre</td>
+        </tr>
+        <tr>
+            <td rowspan="2">TextBox</td>
+            <td>Text</td>
+            <td>En blanco</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>txtPrecio</td>
+        </tr>
+        <tr>
+            <td rowspan="2">TextBox</td>
+            <td>Text</td>
+            <td>En blanco</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>txtStock</td>
+        </tr>
+        <tr>
+            <td rowspan="1">ComboBox</td>
+            <td>Name</td>
+            <td>cmbProveedor</td>
+        </tr>
+        <tr>
+            <td rowspan="1">ComboBox</td>
+            <td>Name</td>
+            <td>cmbCategoria</td>
+        </tr>
+        <tr>
+            <td rowspan="2">Button</td>
+            <td>Text</td>
+            <td>Cargar Imagen</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>btnImagen</td>
+        </tr>
+        <tr>
+            <td rowspan="1">PictureBox</td>
+            <td>Name</td>
+            <td>picImage</td>
+        </tr>
+        <tr>
+            <td rowspan="2">Button</td>
+            <td>Text</td>
+            <td>Guardar</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>btnGuardar</td>
+        </tr>
+        <tr>
+            <td rowspan="2">Button</td>
+            <td>Text</td>
+            <td>Eliminar</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>btnEliminar</td>
+        </tr>
+        <tr>
+            <td rowspan="2">Button</td>
+            <td>Text</td>
+            <td>Limpiar</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>btnLimpiar</td>
+        </tr>
+        <tr>
+            <td>GroupBox</td>
+            <td>Text</td>
+            <td>Listado de Productos</td>
+        </tr>
+        <tr>
+            <td rowspan="3">DataGridView</td>
+            <td>Name</td>
+            <td>dgvListaProductos</td>
+        </tr>
+        <tr>
+            <td>AutoSizeRowsMode</td>
+            <td>AllCells</td>
+        </tr>
+        <tr>
+            <td>AutoSizeColumnsMode</td>
+            <td>Fill</td>
+        </tr>
+    </tbody>
+</table>
+
+El formulario deberá quedar de una forma similar a la siguiente:
+
+![Proyecto7](./images/frmControlProducto.png)
+
+#### Eventos y Métodos para el funcionamiento del Control de Productos
+
+1. Crear a nivel de clase dos variables:
+
+    ```vb
+    Dim conexion As New ConexionBD()
+    Dim idProductoSeleccionado As Integer = -1
+   ```
+
+2. Evento clic para el botón "Cargar Imagen" y luego se digitada el siguiente código:
+
+    ```vb
+        Private Sub btnImagen_Click(sender As Object, e As EventArgs) Handles btnImagen.Click
+            ' Crear una nueva instancia de OpenFileDialog
+            Dim openFileDialog As New OpenFileDialog()
+
+            openFileDialog.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp"
+            openFileDialog.Title = "Seleccionar una imagen para el producto"
+
+            ' Mostrar el openfileDialog y comprobar si el usuario selecciona un archivo
+            If openFileDialog.ShowDialog() = DialogResult.OK Then
+                ' Obtener la ruta del archivo seleccionado
+                Dim imagePath As String = openFileDialog.FileName
+
+                ' Cargar la imagen en el PictureBox
+                picImage.Image = Image.FromFile(imagePath)
+
+                ' Ajustar el tamaño de la imagen
+                picImage.SizeMode = PictureBoxSizeMode.StretchImage
+            End If
+        End Sub
+    ```
+
+3. Métodos para cargar los datos de los proveedores y categorías en los combobox respectivos:
+
+    ```vb
+    Private Sub ConsultarCategoria()
+
+        'Obtener una conexion abierta
+        Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+        Try
+            Using command As New SqlCommand("ObtenerCategorias", connection)
+                command.CommandType = CommandType.StoredProcedure
+
+                'Ejecutar el comando y llenar un DataTable con los resultados
+                Dim adapter As New SqlDataAdapter(command)
+                Dim dataTable As New DataTable()
+                adapter.Fill(dataTable)
+
+
+                'Cambia la fuente de datos para el combobox
+                cmbCategoria.DataSource = dataTable
+                cmbCategoria.DisplayMember = dataTable.Columns(1).ColumnName 'Especifica cual columna se muestra 
+                cmbCategoria.ValueMember = dataTable.Columns(0).ColumnName 'Especifica cual columna se envia como valor
+
+            End Using
+
+        Catch ex As Exception
+            MsgBox($"Error {ex.Message}")
+        Finally
+            conexion.CloseConnection()
+        End Try
+    End Sub
+
+    Private Sub ConsultarProveedores()
+
+        'Obtener una conexion abierta
+        Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+        Try
+            Using command As New SqlCommand("ObtenerProveedores", connection)
+                command.CommandType = CommandType.StoredProcedure
+
+                'Ejecutar el comando y llenar un DataTable con los resultados
+                Dim adapter As New SqlDataAdapter(command)
+                Dim dataTable As New DataTable()
+                adapter.Fill(dataTable)
+
+
+                'Cambia la fuente de datos para el combobox
+                cmbProveedor.DataSource = dataTable
+                cmbProveedor.DisplayMember = dataTable.Columns(1).ColumnName 'Especifica cual columna se muestra 
+                cmbProveedor.ValueMember = dataTable.Columns(0).ColumnName 'Especifica cual columna se envia como valor
+
+            End Using
+
+        Catch ex As Exception
+            MsgBox($"Error {ex.Message}")
+        Finally
+            conexion.CloseConnection()
+        End Try
+    End Sub
+    ```
+
+4. Ahora se crear el método necesario para el proceso de registro del producto:
+   
+   ```vb
+    Private Sub RegistrarProducto(ByVal nombre As String, ByVal precio As Double, ByVal stock As Int64, ByVal idCategoria As Int16, ByVal idProveedor As Int16, ByVal image As Byte())
+        ' Obtener una conexión abierta a la base de datos
+        Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+        Try
+            ' Crear un comando SQL para ejecutar el procedimiento almacenado "InsertarProducto"
+            Using command As New SqlCommand("InsertarProducto", connection)
+                ' Especificar que el comando es un procedimiento almacenado
+                command.CommandType = CommandType.StoredProcedure
+
+                ' Agregar los parámetros necesarios para el procedimiento almacenado
+                command.Parameters.AddWithValue("@nombre", nombre)
+                command.Parameters.AddWithValue("@precio", precio)
+                command.Parameters.AddWithValue("@stock", stock)
+                command.Parameters.AddWithValue("@idCategoria", idCategoria)
+                command.Parameters.AddWithValue("@idProveedor", idProveedor)
+                command.Parameters.Add("@image", SqlDbType.VarBinary).Value = image
+
+                ' Ejecutar el comando para insertar el producto en la base de datos
+                command.ExecuteNonQuery()
+            End Using
+
+            ' Mostrar un mensaje informando que el producto se ha agregado con éxito
+            MsgBox("Producto agregado con éxito!", MsgBoxStyle.Information, "Registro Producto")
+        Catch ex As Exception
+            ' Mostrar un mensaje de error si ocurre una excepción
+            MsgBox($"Error: {ex.Message}")
+        Finally
+            ' Cerrar la conexión a la base de datos
+            conexion.CloseConnection()
+        End Try
+    End Sub
+   ```
+
+5. Método para limpiar los campos del formulario:
+
+   ```vb
+    Private Sub limpiar()
+        txtNombre.Clear()
+        txtPrecio.Clear()
+        txtStock.Clear()
+        cmbCategoria.SelectedIndex = -1
+        cmbProveedor.SelectedIndex = -1
+        picImage.Image = Nothing
+        idProductoSeleccionado = -1
+    End Sub
+   ```
+
+6. Método para modificar un  producto ingresado:
+
+    ```vb
+        Private Sub ModificarProducto(ByVal nombre As String, ByVal precio As Double, ByVal stock As Int64, ByVal idCategoria As Int16, ByVal idProveedor As Int16, ByVal image As Byte())
+            ' Obtener una conexión abierta a la base de datos
+            Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+            Try
+                ' Crear un comando SQL para ejecutar el procedimiento almacenado "ActualizarProducto"
+                Using command As New SqlCommand("ActualizarProducto", connection)
+                    ' Especificar que el comando es un procedimiento almacenado
+                    command.CommandType = CommandType.StoredProcedure
+
+                    ' Agregar los parámetros necesarios para el procedimiento almacenado
+                    command.Parameters.AddWithValue("@id", idProductoSeleccionado)
+                    command.Parameters.AddWithValue("@nombre", nombre)
+                    command.Parameters.AddWithValue("@precio", precio)
+                    command.Parameters.AddWithValue("@stock", stock)
+                    command.Parameters.AddWithValue("@idCategoria", idCategoria)
+                    command.Parameters.AddWithValue("@idProveedor", idProveedor)
+                    command.Parameters.Add("@image", SqlDbType.VarBinary).Value = image
+
+                    ' Ejecutar el comando para insertar el producto en la base de datos
+                    command.ExecuteNonQuery()
+                End Using
+
+                ' Mostrar un mensaje informando que el producto se ha agregado con éxito
+                MsgBox("Producto Modificado con éxito!", MsgBoxStyle.Information, "Modificado Producto")
+            Catch ex As Exception
+                ' Mostrar un mensaje de error si ocurre una excepción
+                MsgBox($"Error: {ex.Message}")
+            Finally
+                ' Cerrar la conexión a la base de datos
+                conexion.CloseConnection()
+            End Try
+        End Sub
+    ```
+
+7. Evento clic para el botón **Guardar**, es importante recordar que este botón cumple la función de registrar y modificar, adicionalmente se agrega validaciones básicas:
+
+   ```vb
+    Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
+        ' Validar los campos del formulario
+        If String.IsNullOrWhiteSpace(txtNombre.Text) Then
+            MsgBox("Por favor, ingrese el nombre del producto.", MsgBoxStyle.Exclamation, "Validación")
+            txtNombre.Focus()
+            Exit Sub
+        End If
+
+        If Not Double.TryParse(txtPrecio.Text, Nothing) OrElse Convert.ToDouble(txtPrecio.Text) <= 0 Then
+            MsgBox("Por favor, ingrese un precio válido para el producto.", MsgBoxStyle.Exclamation, "Validación")
+            txtPrecio.Focus()
+            Exit Sub
+        End If
+
+        If Not Int64.TryParse(txtStock.Text, Nothing) OrElse Convert.ToInt64(txtStock.Text) < 0 Then
+            MsgBox("Por favor, ingrese una cantidad de stock válida para el producto.", MsgBoxStyle.Exclamation, "Validación")
+            txtStock.Focus()
+            Exit Sub
+        End If
+
+        If cmbCategoria.SelectedIndex = -1 Then
+            MsgBox("Por favor, seleccione una categoría para el producto.", MsgBoxStyle.Exclamation, "Validación")
+            cmbCategoria.Focus()
+            Exit Sub
+        End If
+
+        If cmbProveedor.SelectedIndex = -1 Then
+            MsgBox("Por favor, seleccione un proveedor para el producto.", MsgBoxStyle.Exclamation, "Validación")
+            cmbProveedor.Focus()
+            Exit Sub
+        End If
+
+        ' Obtener los bytes de la imagen
+        Dim imageBytes As Byte() = Nothing
+        If picImage.Image IsNot Nothing Then
+            ' Convertir la imagen en un arreglo de bytes
+            Using MS As New MemoryStream()
+                picImage.Image.Save(MS, System.Drawing.Imaging.ImageFormat.Png)
+                imageBytes = MS.ToArray()
+            End Using
+        End If
+
+
+        If (idProductoSeleccionado = -1) Then
+            ' Registrar el producto
+            RegistrarProducto(txtNombre.Text, Convert.ToDouble(txtPrecio.Text), Convert.ToInt64(txtStock.Text), Convert.ToInt16(cmbCategoria.SelectedValue), Convert.ToInt16(cmbProveedor.SelectedValue), imageBytes)
+
+            limpiar()
+            ConsultarProductos()
+        Else
+            ModificarProducto(txtNombre.Text, Convert.ToDouble(txtPrecio.Text), Convert.ToInt64(txtStock.Text), Convert.ToInt16(cmbCategoria.SelectedValue), Convert.ToInt16(cmbProveedor.SelectedValue), imageBytes)
+
+            limpiar()
+            ConsultarProductos()
+        End If
+
+
+    End Sub
+   ```
+
+8. Método para consultar la lista de productos agregados:
+
+   ```vb
+    Private Sub ConsultarProductos()
+        ' Obtener una conexión abierta
+        Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+        Try
+            Using command As New SqlCommand("ObtenerProductos", connection)
+                command.CommandType = CommandType.StoredProcedure
+
+                ' Ejecutar el comando y llenar un DataTable con los resultados
+                Dim adapter As New SqlDataAdapter(command)
+                Dim dataTable As New DataTable()
+                adapter.Fill(dataTable)
+
+                ' Crear una nueva columna para las imágenes
+                dataTable.Columns.Add("ImagenProducto", GetType(Image))
+
+                ' Rellenar la nueva columna con las imágenes convertidas
+                For Each row As DataRow In dataTable.Rows
+                    If Not IsDBNull(row("image")) Then
+                        Dim imageBytes As Byte() = CType(row("image"), Byte())
+                        Using ms As New MemoryStream(imageBytes)
+                            row("ImagenProducto") = Image.FromStream(ms)
+                        End Using
+                    Else
+                        row("ImagenProducto") = Nothing
+                    End If
+                Next
+
+                ' Eliminar la columna original de bytes de imagen
+                dataTable.Columns.Remove("image")
+
+                ' Asignar el DataTable al DataGridView
+                dgvListaProductos.DataSource = dataTable
+
+                ' Verificar si la columna de imagen ya existe
+                If dgvListaProductos.Columns("ImagenProducto") Is Nothing Then
+                    ' Añadir una columna de imagen
+                    Dim imageColumn As New DataGridViewImageColumn()
+                    imageColumn.Name = "ImagenProducto"
+                    imageColumn.HeaderText = "Imagen"
+                    dgvListaProductos.Columns.Add(imageColumn)
+                End If
+
+            End Using
+        Catch ex As Exception
+            MsgBox($"Error: {ex.Message}")
+        Finally
+            conexion.CloseConnection()
+        End Try
+    End Sub
+   ```
+
+    **Nota** en este caso se debe agregar adicionalmente un evento *CellFormatting* en el DataGridView para controlar el tamaño de la imagen de la siguiente manera:
+
+    ```vb
+        Private Sub dgvListaProductos_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvListaProductos.CellFormatting
+
+            If dgvListaProductos.Columns("ImagenProducto") IsNot Nothing AndAlso e.ColumnIndex = dgvListaProductos.Columns("ImagenProducto").Index AndAlso e.Value IsNot Nothing Then
+                Dim img As Image = CType(e.Value, Image)
+                e.Value = New Bitmap(img, New Size(100, 100))
+            End If
+
+        End Sub
+    ```
+
+9. Ahora en el evento CellDoubleClick del DataGridView se deberá crear el siguiente código:
+
+    ```vb
+        Private Sub dgvListaProductos_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvListaProductos.CellDoubleClick
+            ' Verificar que el índice de la fila no sea -1 (cabezera del DataGridView)
+            If e.RowIndex >= 0 Then
+                ' Obtener la fila seleccionada
+                Dim row As DataGridViewRow = dgvListaProductos.Rows(e.RowIndex)
+
+                ' Obtener los datos de la fila y asignarlos a los controles del formulario
+                txtNombre.Text = row.Cells("Nombre").Value.ToString()
+                txtPrecio.Text = row.Cells("Precio").Value.ToString()
+                txtStock.Text = row.Cells("Stock").Value.ToString()
+                cmbCategoria.SelectedValue = row.Cells("IdCategoria").Value
+                cmbProveedor.SelectedValue = row.Cells("IdProveedor").Value
+
+                ' Cargar la imagen del producto, si existe
+                If Not IsDBNull(row.Cells("ImagenProducto").Value) AndAlso row.Cells("ImagenProducto").Value IsNot Nothing Then
+                    Dim img As Image = CType(row.Cells("ImagenProducto").Value, Image)
+                    picImage.Image = New Bitmap(img, New Size(200, 200))
+                Else
+                    picImage.Image = Nothing
+                End If
+
+                ' Asignar el ID del producto seleccionado (si es necesario)
+                idProductoSeleccionado = Convert.ToInt32(row.Cells("id").Value)
+            End If
+        End Sub
+    ```
+
+10. En el evento clic del botón Limpiar se invocara al método **limpiar()**
+11. Ahora se deberá crear el método para eliminar un producto:
+
+    ```vb
+    Private Sub EliminarProducto(idProducto As Integer)
+        ' Obtener una conexión abierta a la base de datos
+        Dim connection As SqlConnection = conexion.GetOpenConnection()
+
+        Try
+            ' Crear un comando SQL para ejecutar el procedimiento almacenado "EliminarProducto"
+            Using command As New SqlCommand("EliminarProducto", connection)
+                ' Especificar que el comando es un procedimiento almacenado
+                command.CommandType = CommandType.StoredProcedure
+
+                ' Añadir el parámetro necesario para el procedimiento almacenado
+                command.Parameters.AddWithValue("@idProducto", idProducto)
+
+                ' Ejecutar el comando para eliminar el producto de la base de datos
+                command.ExecuteNonQuery()
+            End Using
+
+            ' Mostrar un mensaje informando que el producto se ha eliminado con éxito
+            MsgBox("Producto eliminado con éxito!", MsgBoxStyle.Information, "Eliminar Producto")
+
+            ' Volver a cargar los productos para reflejar los cambios
+            ConsultarProductos()
+        Catch ex As Exception
+            ' Mostrar un mensaje de error si ocurre una excepción
+            MsgBox($"Error: {ex.Message}")
+        Finally
+            ' Cerrar la conexión a la base de datos
+            conexion.CloseConnection()
+        End Try
+    End Sub
+    ```
+
+12. Luego en el evento clic del botón **btnEliminar** se deberá digitar el siguiente código:
+
+    ```vb
+    Private Sub btnEliminar_Click(sender As Object, e As EventArgs) Handles btnEliminar.Click
+        ' Verificar que hay un producto seleccionado
+        If idProductoSeleccionado <> -1 Then
+            ' Confirmar la eliminación
+            Dim result As DialogResult = MessageBox.Show("¿Está seguro de que desea eliminar este producto?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+            If result = DialogResult.Yes Then
+                ' Llamar al método EliminarProducto para eliminar el producto seleccionado
+                EliminarProducto(idProductoSeleccionado)
+
+                ' Limpiar los controles del formulario después de la eliminación
+                limpiar()
+                ConsultarProductos()
+            End If
+        Else
+            MsgBox("Por favor, seleccione un producto para eliminar.", MsgBoxStyle.Exclamation, "Eliminar Producto")
+        End If
+    End Sub
+
+    ```
+
+#### Formulario Main o Principal
+
+En el formulario principal se deberán agregar los botones de acción para mostrar cada uno de los formulario creado anteriormente:
+
+![Proyecto8](./images/mainmenu.png)
+
+codigo de eventos clic;
+
+```vb
+ Private Sub btnCategorias_Click(sender As Object, e As EventArgs) Handles btnCategorias.Click
+
+     frmControlCategoria.ShowDialog()
+     'frmControlCategoria.Show()
+
+ End Sub
+
+ Private Sub btnProducto_Click(sender As Object, e As EventArgs) Handles btnProducto.Click
+
+     frmControlProducto.ShowDialog()
+
+ End Sub
+
+```
+
+**Nota** los eventos de los botones Proveedores y Ordenes de compra se crearan según se resuelvan los componentes prácticos del laboratorio.
+
+#### Ordenes de Compra (Practica)
+
+Con base a lo aprendido piensa en una solución para crear las ordenes de compra y para su visualización.
